@@ -1,7 +1,13 @@
 import React from 'react'
 import Image from 'next/image'
 
-const Footer = () => {
+interface FooterProps {
+  description?: string;
+}
+
+const Footer: React.FC<FooterProps> = ({
+  description = "Platform pembelajaran terpadu untuk mengembangkan skill dan menghasilkan income."
+}) => {
   const currentYear = new Date().getFullYear()
   const logonav = '/logonav.svg'
 
@@ -21,7 +27,7 @@ const Footer = () => {
                 className="h-[67px] w-auto mb-4"
               />
               <p className="text-gray-400 text-sm leading-relaxed">
-                Platform pembelajaran terpadu untuk mengembangkan skill dan menghasilkan income.
+                {description}
               </p>
             </div>
 

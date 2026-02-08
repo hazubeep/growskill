@@ -1,6 +1,7 @@
 'use client';
 
 import React, { useState, useEffect, useRef } from 'react'
+import Image from 'next/image'
 
 interface Testimonial {
   name: string;
@@ -11,36 +12,43 @@ interface Testimonial {
 
 interface TestimoniProps {
   title?: string;
+  highlightedWords?: { text: string; color: 'blue' | 'green' }[];
   buttonText?: string;
   testimonials?: Testimonial[];
 }
 
 const Testimoni: React.FC<TestimoniProps> = ({
-  title = 'Jangan Percaya Kita. Lihat Saja Hasil Member VIP Akademi MARKeter',
-  buttonText = 'Join Sekarang!!',
-  testimonials = [
-    {
-      name: 'Agni',
-      title: 'Siswa SMKN 1 Sumedang',
-      text: 'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut fames. Fringilla magna eget nec massa et vulputate non enim sit. Donec diam sed vitae et enim arcu maecenas. Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut fames. Fringilla magna eget nec massa et vulputate non enim sit. Donec diam sed vitae et enim arcu maecenas.'
-    },
-    {
-      name: 'baba',
-      title: 'Siswa SMKN 1 Sumedang',
-      text: 'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut fames. Fringilla magna eget nec massa et vulputate non enim sit. Donec diam sed vitae et enim arcu maecenas. Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut fames. Fringilla magna eget nec massa et vulputate non enim sit. Donec diam sed vitae et enim arcu maecenas.'
-    },
-    {
-      name: 'Agni',
-      title: 'Siswa SMKN 1 Sumedang',
-      text: 'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut fames. Fringilla magna eget nec massa et vulputate non enim sit. Donec diam sed vitae et enim arcu maecenas. Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut fames. Fringilla magna eget nec massa et vulputate non enim sit. Donec diam sed vitae et enim arcu maecenas.'
-    },
-  ],
+  title = '',
+  highlightedWords = [],
+  buttonText,
+  testimonials = [],
 }) => {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [isTransitioning, setIsTransitioning] = useState(false);
   const [isMobile, setIsMobile] = useState(false);
   const touchStartX = useRef<number | null>(null);
   const touchEndX = useRef<number | null>(null);
+
+  const renderTitle = () => {
+    if (!title) return null;
+    if (!highlightedWords || highlightedWords.length === 0) return title;
+    
+    // Sort by length descending to match longer phrases first
+    const sortedHighlights = [...highlightedWords].sort((a, b) => b.text.length - a.text.length);
+    // Create regex pattern to match any highlighted phrase
+    const pattern = new RegExp(`(${sortedHighlights.map(h => h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
+    
+    const parts = title.split(pattern);
+    
+    return parts.map((part, idx) => {
+      const highlight = sortedHighlights.find(h => h.text === part);
+      if (highlight) {
+        const colorClass = highlight.color === 'blue' ? 'text-[#3B82F6]' : 'text-green-500';
+        return <span key={idx} className={colorClass}>{part}</span>;
+      }
+      return <span key={idx}>{part}</span>;
+    });
+  };
 
   const handlePrev = () => {
     setIsTransitioning(true);
@@ -93,8 +101,7 @@ const Testimoni: React.FC<TestimoniProps> = ({
       <div className="max-w-8xl mx-auto sm:px-6 lg:px-8">
         {/* Title */}
         <h2 className="text-2xl md:text-4xl lg:text-5xl font-bold text-center mb-16">
-          <span className="text-[#3B82F6]">Jangan Percaya Kita.</span> Lihat{' '}
-          <span className="text-white">Saja Hasil Member VIP Akademi MARKeter</span>
+          {renderTitle()}
         </h2>
 
         {/* Carousel */}
@@ -130,7 +137,16 @@ const Testimoni: React.FC<TestimoniProps> = ({
               >
                 {/* Profile Header */}
                 <div className="flex items-center gap-4 mb-8">
-                  <div className="w-14 h-14 bg-gray-300 rounded-full flex-shrink-0"></div>
+                  <div className="w-14 h-14 relative bg-gray-300 rounded-full flex-shrink-0 overflow-hidden">
+                    {testimonial.image ? (
+                       <Image 
+                         src={testimonial.image} 
+                         alt={testimonial.name}
+                         fill
+                         className="object-cover"
+                       />
+                    ) : null}
+                  </div>
                   <div>
                     <h3 className="text-xl font-bold">{testimonial.name}</h3>
                     <p className="text-gray-400 text-sm">{testimonial.title}</p>

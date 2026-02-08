@@ -1,0 +1,174 @@
+local_backend: true
+
+editor:
+  preview: false
+
+# Use DecapBridge classic auth (required)
+backend:
+  name: git-gateway
+  repo: citowritebylevana/citowrite
+  branch: main
+  identity_url: https://auth.decapbridge.com/sites/5310c4c7-c285-44ae-82a5-7b3a64001931
+  gateway_url: https://gateway.decapbridge.com
+
+  # See who did what (optional)
+  commit_messages:
+    create: Create {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    update: Update {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    delete: Delete {{collection}} “{{slug}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    uploadMedia: Upload “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    deleteMedia: Delete “{{path}}” - {{author-name}} <{{author-login}}> via DecapBridge
+    openAuthoring: Message {{message}} - {{author-name}} <{{author-login}}> via DecapBridge
+
+# Better Decap + Bridge logo (optional)
+logo_url: https://decapbridge.com/decapcms-with-bridge.svg
+
+# Add site links in Decap CMS (optional)
+# site_url: https://citowrite.id
+
+
+# Add site links in Decap CMS (optional)
+media_folder: "public/images/uploads"
+public_folder: "/images/uploads"
+
+collections:
+  - name: "homepage_sections"
+    label: "Edit Halaman"
+    files:
+      # --- FILE 1: HERO ---
+      - name: "hero"
+        label: "1. Hero Section"
+        file: "contents/hero.md"
+        fields:
+          - { label: "Headline", name: "title", widget: "string" }
+          - label: "Highlighted Words"
+            name: "highlightedWords"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+              - { label: "Color", name: "color", widget: "select", options: ["blue", "green"] }
+          - { label: "Button Text", name: "buttonText", widget: "string" }
+          - { label: "YouTube URL", name: "youtubeUrl", widget: "string" }
+          - { label: "Image Placeholder", name: "imagePlaceholder", widget: "boolean", default: false }
+
+      # --- FILE 2: ABOUT ---
+      - name: "about"
+        label: "2. About Section"
+        file: "contents/about.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - { label: "Image", name: "imageUrl", widget: "image", required: false }
+          - { label: "Image Placeholder", name: "imagePlaceholder", widget: "boolean", default: false }
+
+      # --- FILE 3: AUDIENCE (Audience Check) ---
+      - name: "audience"
+        label: "3. Audience Check"
+        file: "contents/audience.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - label: "Cocok List"
+            name: "cocoklist"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+          - label: "Tidak Cocok List"
+            name: "notCocoklist"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+
+      # --- FILE 4: TESTIMONI ---
+      - name: "testimoni"
+        label: "4. Testimoni Section"
+        file: "contents/testimoni.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - label: "Highlighted Words"
+            name: "highlightedWords"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+              - { label: "Color", name: "color", widget: "select", options: ["blue", "green"] }
+          - { label: "Button Text", name: "buttonText", widget: "string" }
+          - label: "Testimonials"
+            name: "testimonials"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Text", name: "text", widget: "text" }
+              - { label: "Image", name: "image", widget: "image", required: false }
+
+      # --- FILE 5: MODUL ---
+      - name: "modul"
+        label: "5. Modul Section"
+        file: "contents/modul.md"
+        fields:
+          - { label: "Main Title", name: "title", widget: "string" }
+          - label: "Highlighted Words"
+            name: "highlightedWords"
+            widget: "list"
+            fields:
+              - { label: "Text", name: "text", widget: "string" }
+              - { label: "Color", name: "color", widget: "select", options: ["blue", "green"] }
+          - label: "Items"
+            name: "items"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Subtitle", name: "subtitle", widget: "string" }
+              - { label: "Bullet Point", name: "bullet", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Image", name: "image", widget: "image", required: false }
+
+      # --- FILE 6: FASILITAS ---
+      - name: "fasilitas"
+        label: "6. Fasilitas Section"
+        file: "contents/fasilitas.md"
+        fields:
+          - { label: "Main Title", name: "title", widget: "string" }
+          - { label: "Total Price", name: "totalPrice", widget: "string" }
+          - { label: "Total Period", name: "totalPeriod", widget: "string" }
+          - label: "Facilities"
+            name: "facilities"
+            widget: "list"
+            fields:
+              - { label: "Title", name: "title", widget: "string" }
+              - { label: "Price", name: "price", widget: "string" }
+              - { label: "Period", name: "period", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Image", name: "image", widget: "image", required: false }
+
+      # --- FILE 7: PRICING ---
+      - name: "pricing"
+        label: "7. Pricing Section"
+        file: "contents/pricing.md"
+        fields:
+          - { label: "Title", name: "title", widget: "string" }
+          - { label: "Description", name: "description", widget: "text" }
+          - label: "Packages"
+            name: "packages"
+            widget: "list"
+            fields:
+              - { label: "Name", name: "name", widget: "string" }
+              - { label: "Price", name: "price", widget: "string" }
+              - { label: "Period", name: "period", widget: "string" }
+              - { label: "Description", name: "description", widget: "text" }
+              - { label: "Button Text", name: "buttonText", widget: "string" }
+              - { label: "Best Value?", name: "isBestValue", widget: "boolean", default: false }
+              - label: "Benefits"
+                name: "benefits"
+                widget: "list"
+                fields:
+                  - { label: "Title", name: "title", widget: "string" }
+                  - { label: "Is Included", name: "isIncluded", widget: "boolean", default: true }
+
+      # --- FILE 8: FOOTER ---
+      - name: "footer"
+        label: "8. Footer Section"
+        file: "contents/footer.md"
+        fields:
+          - { label: "Company Description", name: "description", widget: "text" }
+
+

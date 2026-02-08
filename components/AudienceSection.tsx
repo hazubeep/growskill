@@ -6,32 +6,16 @@ interface ChecklistItem {
   text: string;
 }
 
-interface AboutSection2Props {
+interface AudienceSectionProps {
   title?: string;
   cocoklist?: ChecklistItem[];
   notCocoklist?: ChecklistItem[];
 }
 
-const AboutSection2: React.FC<AboutSection2Props> = ({
-  title = 'Cek apakah kelas ini cocok buat kamu',
-  cocoklist = [
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-  ],
-  notCocoklist = [
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-    { text: 'Kepikiran Ngonten tapi belum pd' },
-  ],
+const AudienceSection: React.FC<AudienceSectionProps> = ({
+  title,
+  cocoklist = [],
+  notCocoklist = [],
 }) => {
   return (
     <section className="bg-black text-white px-[20px] md:px-[70px] pt-12 md:py-24">
@@ -106,4 +90,4 @@ const AboutSection2: React.FC<AboutSection2Props> = ({
   )
 }
 
-export default AboutSection2
+export default AudienceSection

@@ -1,45 +1,51 @@
-import React from 'react'
+import Image from 'next/image'
 
-const items = [
-  {
-    title: 'Fast Track',
-    subtitle: 'For Brand',
-    bullets: ['40+ Video Pembelajaran'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec ut in fermentum. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-  {
-    title: 'Fast Track',
-    subtitle: 'For Brand',
-    bullets: ['40+ Video Pembelajaran'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec ut in fermentum. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-  {
-    title: 'Fast Track',
-    subtitle: 'For Brand',
-    bullets: ['40+ Video Pembelajaran'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec ut in fermentum. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-  {
-    title: 'Fast Track',
-    subtitle: 'For Brand',
-    bullets: ['40+ Video Pembelajaran'],
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec ut in fermentum. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-  
-]
+interface ModulItem {
+  title: string;
+  subtitle: string;
+  bullet: string;
+  description: string;
+  image?: string;
+}
 
-const ModulSection = () => {
+interface ModulSectionProps {
+  title?: string;
+  highlightedWords?: { text: string; color: 'blue' | 'green' }[];
+  items?: ModulItem[];
+}
+
+const ModulSection: React.FC<ModulSectionProps> = ({
+  title = "80++ Modul Pembelajaran",
+  highlightedWords = [],
+  items = []
+}) => {
+  const renderTitle = () => {
+    if (!highlightedWords || highlightedWords.length === 0) return title;
+    
+    // Sort by length descending to match longer phrases first
+    const sortedHighlights = [...highlightedWords].sort((a, b) => b.text.length - a.text.length);
+    // Create regex pattern to match any highlighted phrase
+    const pattern = new RegExp(`(${sortedHighlights.map(h => h.text.replace(/[.*+?^${}()|[\]\\]/g, '\\$&')).join('|')})`, 'g');
+    
+    const parts = title.split(pattern);
+    
+    return parts.map((part, idx) => {
+      const highlight = sortedHighlights.find(h => h.text === part);
+      if (highlight) {
+        const colorClass = highlight.color === 'blue' ? 'text-[#3B82F6]' : 'text-green-500';
+        return <span key={idx} className={colorClass}>{part}</span>;
+      }
+      return <span key={idx}>{part}</span>;
+    });
+  };
+
   // For strict 2-column visual layout: render each item as a row with 3 columns
   return (
     <section className="bg-black text-white px-6 md:px-[70px] py-12 md:py-12">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-5xl font-bold">
-            <span className="text-[#3B82F6]">80++</span> Modul Pembelajaran
+            {renderTitle()}
           </h2>
         </div>
 
@@ -50,10 +56,21 @@ const ModulSection = () => {
               key={idx}
               className="bg-gray-800 rounded-3xl overflow-hidden border border-gray-700"
             >
-              {/* Image placeholder with number badge */}
+              {/* Image with number badge */}
               <div className="relative">
-                <div className="w-full h-48 bg-gray-300" />
-                <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white border-2 border-[#3B82F6] flex items-center justify-center text-[#3B82F6] font-bold text-lg">
+                {item.image ? (
+                  <div className="w-full h-48 relative bg-gray-300">
+                    <Image 
+                      src={item.image} 
+                      alt={item.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full h-48 bg-gray-300" />
+                )}
+                <div className="absolute top-4 left-4 w-10 h-10 rounded-full bg-white border-2 border-[#3B82F6] flex items-center justify-center text-[#3B82F6] font-bold text-lg z-10">
                   {idx + 1}
                 </div>
               </div>
@@ -62,7 +79,7 @@ const ModulSection = () => {
               <div className="p-6">
                 <h3 className="text-xl font-bold mb-2">{item.title}</h3>
                 <p className="text-[#3B82F6] font-semibold mb-2">{item.subtitle}</p>
-                <p className="text-gray-300 text-sm mb-3">{item.bullets[0]}</p>
+                <p className="text-gray-300 text-sm mb-3">{item.bullet}</p>
                 <p className="text-gray-400 text-sm leading-relaxed">{item.description}</p>
               </div>
             </div>
@@ -77,9 +94,20 @@ const ModulSection = () => {
           <div className="space-y-12">
             {items.map((item, idx) => (
               <div key={idx} className="grid grid-cols-3 items-start gap-6">
-                {/* left: image placeholder */}
+                {/* left: image */}
                 <div className="flex justify-end">
-                  <div className="w-44 md:w-[474px] h-44 md:h-56 bg-gray-300 rounded-2xl shadow-sm" />
+                  {item.image ? (
+                    <div className="w-44 md:w-[474px] h-44 md:h-56 relative bg-gray-300 rounded-2xl shadow-sm overflow-hidden">
+                      <Image 
+                        src={item.image} 
+                        alt={item.title}
+                        fill
+                        className="object-cover"
+                      />
+                    </div>
+                  ) : (
+                    <div className="w-44 md:w-[474px] h-44 md:h-56 bg-gray-300 rounded-2xl shadow-sm" />
+                  )}
                 </div>
 
                 {/* center: circle aligned on the center line */}
@@ -93,7 +121,7 @@ const ModulSection = () => {
                 <div className="pl-0">
                   <h3 className="text-xl font-bold">{item.title}</h3>
                   <p className="text-[#3B82F6] font-semibold mt-1">{item.subtitle}</p>
-                  <p className="text-gray-400 text-sm mt-2">{item.bullets[0]}</p>
+                  <p className="text-gray-400 text-sm mt-2">{item.bullet}</p>
                   <p className="text-gray-300 text-sm mt-3 leading-relaxed">{item.description}</p>
                 </div>
               </div>

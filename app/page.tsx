@@ -1,11 +1,22 @@
 import Hero from "@/components/Hero";
 import AboutSection from "@/components/AboutSection";
-import AboutSection2 from "@/components/AboutSection2";
+import AudienceSection from "@/components/AudienceSection";
 import Testimoni from "@/components/testimoni";
 import FasilitasSection from "@/components/FasilitasSection";
 import ModulSection from "@/components/ModulSection";
 import PricingSection from "@/components/PricingSection";
 import Footer from "@/components/Footer";
+
+import { 
+  getHeroData, 
+  getAboutData, 
+  getAudienceData, 
+  getTestimoniData,
+  getModulData,
+  getFasilitasData,
+  getPricingData,
+  getFooterData
+} from "@/lib/markdown";
 
 export const metadata = {
   title: "Growskill - Platform Pembelajaran Online Terbaik | Kursus Skills & Content Creation",
@@ -27,26 +38,76 @@ export const metadata = {
 };
 
 export default function Home() {
+  const heroData = getHeroData();
+  const aboutData = getAboutData();
+  const audienceData = getAudienceData();
+  const testimoniData = getTestimoniData();
+  const modulData = getModulData();
+  const fasilitasData = getFasilitasData();
+  const pricingData = getPricingData();
+  const footerData = getFooterData();
+
   return (
     <div className="pt-20 bg-black">
-      <Hero 
-        title="Tempat Kamu Belajar Banyak Skills, Content Creation, Public Speaking & Editing. Sampe bisa Hasilin Income"
-        highlightedWords={[
-          { text: 'Skills', color: 'blue' },
-          { text: 'Public', color: 'blue' },
-          { text: 'Speaking', color: 'blue' },
-          { text: 'Hasilin', color: 'green' },
-          { text: 'Income', color: 'green' }
-        ]}
-        buttonText="Join Sekarang!!"
-      />
-      <AboutSection />
-      <AboutSection2 />
-      <Testimoni />
-      <ModulSection />
-      <FasilitasSection />
-      <PricingSection />
-      <Footer />
+      {heroData && (
+        <Hero 
+          title={heroData.title}
+          highlightedWords={heroData.highlightedWords}
+          buttonText={heroData.buttonText}
+          youtubeUrl={heroData.youtubeUrl}
+          imagePlaceholder={heroData.imagePlaceholder}
+        />
+      )}
+      {aboutData && (
+        <AboutSection 
+          title={aboutData.title}
+          description={aboutData.description}
+          imageUrl={aboutData.imageUrl}
+          imagePlaceholder={aboutData.imagePlaceholder}
+        />
+      )}
+      {audienceData && (
+        <AudienceSection 
+          title={audienceData.title}
+          cocoklist={audienceData.cocoklist}
+          notCocoklist={audienceData.notCocoklist}
+        />
+      )}
+      {testimoniData && (
+        <Testimoni 
+          title={testimoniData.title}
+          highlightedWords={testimoniData.highlightedWords}
+          buttonText={testimoniData.buttonText}
+          testimonials={testimoniData.testimonials}
+        />
+      )}
+      {modulData && (
+        <ModulSection 
+          title={modulData.title}
+          highlightedWords={modulData.highlightedWords}
+          items={modulData.items}
+        />
+      )}
+      {fasilitasData && (
+        <FasilitasSection 
+          title={fasilitasData.title}
+          totalPrice={fasilitasData.totalPrice}
+          totalPeriod={fasilitasData.totalPeriod}
+          facilities={fasilitasData.facilities}
+        />
+      )}
+      {pricingData && (
+        <PricingSection 
+          title={pricingData.title}
+          description={pricingData.description}
+          packages={pricingData.packages}
+        />
+      )}
+      {footerData && (
+        <Footer 
+          description={footerData.description}
+        />
+      )}
     </div>
   );
 }

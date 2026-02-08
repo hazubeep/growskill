@@ -1,66 +1,59 @@
-import React from 'react'
+import Image from 'next/image'
 
-const facilities = [
-  {
-    id: 1,
-    title: 'Live Mentoring QNA Session & Bedah Dashboard',
-    price: 'Rp 6.200.000',
-    period: '/tahun',
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et. Donec diam sed vitae et enim arcu malesuada. Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-  {
-    id: 2,
-    title: 'VIP Discord Community & Nongkrong Diskusi Live Tiap Hari',
-    price: 'Rp 6.200.000',
-    period: '/tahun',
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et. Donec diam sed vitae et enim arcu malesuada. Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-  {
-    id: 3,
-    title: 'Hot Product Research',
-    price: 'Rp 6.200.000',
-    period: '/tahun',
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et. Donec diam sed vitae et enim arcu malesuada. Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-  {
-    id: 4,
-    title: 'Whitelist Account Meta Ads',
-    price: 'Rp 6.200.000',
-    period: '/tahun',
-    description:
-      'Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et. Donec diam sed vitae et enim arcu malesuada. Lorem ipsum dolor sit amet consectetur. Purus dignissim odio porttitor aliquet nec sit ut frames. Fringilla magna eget nec massa et vulputate non enim et.',
-  },
-]
+interface Facility {
+  title: string;
+  price: string;
+  period: string;
+  description: string;
+  image?: string;
+}
 
-const totalPrice = 'Rp 29.999.000'
-const totalPeriod = '/tahun'
+interface FasilitasSectionProps {
+  title?: string;
+  totalPrice?: string;
+  totalPeriod?: string;
+  facilities?: Facility[];
+}
 
-const FasilitasSection = () => {
+const FasilitasSection: React.FC<FasilitasSectionProps> = ({
+  title = "Bonus Dan Fasilitas Yang Didapatkan Setelah Bergabung Menjadi Member",
+  totalPrice = "Rp 29.999.000",
+  totalPeriod = "/tahun",
+  facilities = []
+}) => {
   return (
     <section className="bg-black text-white px-6 md:px-[70px] py-12 md:py-24">
       <div className="max-w-8xl mx-auto px-4 sm:px-6 lg:px-8">
         {/* Section Title */}
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold leading-tight">
-            Bonus Dan Fasilitas Yang Didapatkan Setelah Bergabung<br />Menjadi Member
+            {title}
           </h2>
         </div>
 
         {/* 2x2 Grid */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-8 mb-12">
-          {facilities.map((facility) => (
-            <div key={facility.id} className="border border-gray-600 rounded-2xl p-6 md:p-8">
-              {/* Image placeholder */}
+          {facilities.map((facility, index) => (
+            <div key={index} className="border border-gray-600 rounded-2xl p-6 md:p-8">
+              {/* Image */}
               <div className="flex justify-center mb-6">
-                <div className="w-full h-48 md:h-[356px] bg-gray-300 rounded-xl shadow-sm" />
+                {facility.image ? (
+                  <div className="w-full h-48 md:h-[356px] relative bg-gray-300 rounded-xl shadow-sm overflow-hidden">
+                    <Image 
+                      src={facility.image} 
+                      alt={facility.title}
+                      fill
+                      className="object-cover"
+                    />
+                  </div>
+                ) : (
+                  <div className="w-full h-48 md:h-[356px] bg-gray-300 rounded-xl shadow-sm" />
+                )}
               </div>
               
               {/* Number and title */}
               <div className="mb-4">
-                <p className="text-[#3B82F6] font-bold text-2xl mb-2">{facility.id}. {facility.title}</p>
+                <p className="text-[#3B82F6] font-bold text-2xl mb-2">{index + 1}. {facility.title}</p>
               </div>
 
               {/* Senilai label and price */}
