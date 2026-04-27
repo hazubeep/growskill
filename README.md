@@ -12,7 +12,6 @@ This is a personal website intended for showing information for someone. The sit
 - [Technologies Used](#technologies-used)
 - [Content Management](#content-management)
 - [Contributing](#contributing)
-- [License](#license)
 
 ## Getting Started
 
@@ -149,7 +148,3 @@ The content of this website is managed using [Decap CMS](https://decapcms.org/).
 ## Contributing
 
 Contributions are welcome! Please feel free to submit a pull request with any improvements or new features.
-
-## License
-
-This project is licensed under the terms of the repository owner's chosen license. Replace this section with the specific license used for the project.
